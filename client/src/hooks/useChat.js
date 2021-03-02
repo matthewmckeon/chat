@@ -12,9 +12,10 @@ const useChat = (roomId) => {
     });
 
     // Listens for messages
-    socketRef.current.on('message', (message) => {
+    socketRef.current.on('message', (message, name) => {
       const incomingMessage = {
         ...message,
+        ...name
       };
       setMessages((messages) => [...messages, incomingMessage]);
     });
@@ -26,9 +27,10 @@ const useChat = (roomId) => {
   }, [roomId]);
 
   // message => server => /:roomId
-  const sendMessage = (message) => {
+  const sendMessage = (message, name) => {
     socketRef.current.emit('message', {
       body: message,
+      name: name
     });
   };
 
